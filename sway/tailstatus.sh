@@ -13,7 +13,7 @@ i3status | while IFS= read -r line; do
             echo "$line"
             ;;
         *)
-            printf '%s\n' "$line" | sed "s/^\(\[\|,\)/\1{\"name\":\"tailscale\",\"full_text\":\"$ts\"},/"
+            printf '%s\n' "$line" | sed "s/^\(,\?\)\[/\1[{\"name\":\"tailscale\",\"full_text\":\"$ts\"},/"
             ;;
     esac
 done
