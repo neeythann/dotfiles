@@ -58,6 +58,14 @@ i3status | while IFS= read -r line; do
         else
             bs="BAT n/a"
         fi
+        bcolor=""
+        case "$bst" in
+            Charging) bcolor=',"color":"#00FF00"' ;;
+            Full) bcolor=',"color":"#00FF00"' ;;
+        esac
+        if [ -n "$bcap" ] && [ "$bcap" -le 20 ]; then
+            bcolor=',"color":"#FF0000"'
+        fi
         if [ -n "$bnow" ] && [ -n "$bcur" ] && [ "$bcur" -gt 0 ] 2>/dev/null; then
             bh=$(( bnow / bcur ))
             bm=$(( (bnow * 60 / bcur) % 60 ))
@@ -75,7 +83,7 @@ i3status | while IFS= read -r line; do
             echo "$line"
             ;;
         *)
-            printf '%s\n' "$line" | sed -e "s|^\(,\?\)\[|\1[{\"name\":\"weather\",\"full_text\":\"$wt\"},{\"name\":\"tailscale\",\"full_text\":\"$ts\"},|" -e 's|\[\(.*\)\]|[\1,{"name":"sound","full_text":"S: '"$vs"'"},{"name":"battery","full_text":"'"$bs"'"},{"name":"clock","full_text":"'"$ct"'"}]|'
+            printf '%s\n' "$line" | sed -e "s|^\(,\?\)\[|\1[{\"name\":\"weather\",\"full_text\":\"$wt\"},{\"name\":\"tailscale\",\"full_text\":\"$ts\"},|" -e "s|\[\(.*\)\]|[\1,{\"name\":\"sound\",\"full_text\":\"S: $vs\"},{\"name\":\"battery\",\"full_text\":\"$bs\"$bcolor},{\"name\":\"clock\",\"full_text\":\"$ct\"}]|"
             ;;
     esac
 done
