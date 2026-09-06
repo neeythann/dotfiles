@@ -8,31 +8,18 @@
 
 general {
         colors = true
-        interval = 30
+        interval = 1
         output_format = "i3bar"
 }
 
 order += "wireless _first_"
-order += "ethernet _first_"
-order += "battery all"
 order += "disk /"
 order += "load"
 order += "memory"
-order += "tztime local"
 
 wireless _first_ {
         format_up = "WiFi: (%quality at %essid) %ip"
         format_down = "WiFi: down"
-}
-
-ethernet _first_ {
-        format_up = "Ethernet: %ip (%speed)"
-        format_down = "Ethernet: down"
-}
-
-battery all {
-        format = "Battery: %status %percentage %remaining"
-        last_full_capacity = true
 }
 
 disk "/" {
@@ -40,15 +27,11 @@ disk "/" {
 }
 
 load {
-        format = "Load: %1min"
+        format = "CPU: %1min"
 }
 
 memory {
-        format = "RAM used: %used | RAM free: %available"
+        format = "RAM: %used"
         threshold_degraded = "1G"
         format_degraded = "MEMORY < %available"
-}
-
-tztime local {
-        format = "%a %b %d %H:%M:%S"
 }
